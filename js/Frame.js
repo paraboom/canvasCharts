@@ -1,4 +1,5 @@
 (function(){
+    // Начальные данные
     var defaultFrame = {
         offset: 0
     };
@@ -19,26 +20,35 @@
             console.warn('Canvas isn\'t supported');
         }
 
+        // Считаем размеры
         this.width = this.el.width();
         this.height = this.el.height();
 
         // Хранилище точек
         this.collection = options.collection;
 
+        // Перематываем график сразу вправо
         this.offset = this.collection.getSummaryWidth() - this.width;
 
+        // Рисуем вспомогательные линии
         this.drawInitLines(0, this.height / 2, this.width, this.height / 2);
+        // Рисуем видимые точки
         this.drawPoints(this.getVisiblePoints());
 
+        /**
+         * Таскание графика
+         */
         var isPressed = false,
             lastPosition = this.offset,
             rightBorder = this.offset,
             that = this;
 
+        // Нажали
         this.el.on('mousedown', function(evt){
             isPressed = evt;
         });
 
+        // Тянем
         this.el.on('mousemove', function(evt){
             if (!isPressed) return true;
 
@@ -50,6 +60,7 @@
             }
         });
 
+        // Отпустили и запомнили текущее смещение
         this.el.on('mouseup', function(evt){
             lastPosition = that.offset;
             isPressed = false;
@@ -57,6 +68,7 @@
     };
 
     Frame.prototype = {
+        // Рисуем вспомогательные линии (пока только центральная линия)
         drawInitLines: function(x, y, x2, y2, dashArray){
             if (!dashArray) dashArray = [10,5];
             if (!dashLength) dashLength = 0.001;
@@ -87,14 +99,17 @@
 
             this.context.stroke();
         },
+        // Получем из коллекции список видимых точек
         getVisiblePoints: function(){
             return this.collection.getPoints(this.width, this.offset);
         },
+        // Рисуем точки (видимо нужно перенести в коллекцию этот метод)
         drawPoints: function(points){
             _.each(points, function(point, i){
                 point.draw(this.context, i, this.offset, this.height / 2);
             }, this);
         },
+        // Перерисовка кадра (очистка, вспомогательные линии, точки)
         redraw: function(){
             this.context.clearRect(0, 0, this.width, this.height);
             this.drawInitLines(0, this.height / 2, this.width, this.height / 2);

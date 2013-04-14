@@ -21,9 +21,11 @@
 	};
 
 	Point.prototype = {
+		// Ширина
 		getWidth: function(){
 			return this.width;
 		},
+		// Проверка видима ли точка в заданном отрезке
 		isVisible: function(width, offset){
 			var x = this.x;
 
@@ -33,14 +35,11 @@
 				return false;
 			}
 		},
+		// Отрисовка элемента точки
 		draw: function(ctx, i, offsetX, offsetY){
 			var x = this.x - offsetX - 2,
 				lineX = x + this.width / 2 - 1,
 				y = offsetY + this.y;
-
-			if (i == 0 && offsetX == 17) {
-				// debugger;
-			}
 
 			ctx.strokeStyle = "rgba(0, 0, 0, 1)";
 			ctx.beginPath();

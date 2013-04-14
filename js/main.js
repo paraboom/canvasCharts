@@ -4,6 +4,7 @@ $(function(){
 	var fakeData = [],
 		x = 0;
 
+	// Генерим фэйковые данные
 	for (var i = 0, l = 100; i < l; i++) {
 		var y = Faker.Helpers.randomNumber(300)-150,
 			height = Faker.Helpers.randomNumber(130) + 20,
@@ -20,15 +21,16 @@ $(function(){
 		});
 	}
 
-	function init(){
+	(function init(){
+		// Коллекция точек
 		var pointsCollection = new chart.PointsCollection(chart.Point);
+		// Добавляем точки в коллекцию
 		pointsCollection.add(fakeData);
 
+		// График с коллекцией точек
 		var chartGraph = new chart.Frame({
 			el: $('#frame'),
 			collection: pointsCollection
 		});
-	}
-
-	setTimeout(init, 50);
+	})();
 });
