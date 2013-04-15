@@ -1,0 +1,9 @@
+@import url("normalize.css");
+
+.chart-container {
+	width: 500px;
+	height: 300px;
+	position: relative;
+	margin: 50px auto;
+	border: 1px solid black;
+}
