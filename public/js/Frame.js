@@ -41,6 +41,8 @@
                 that.offset = that.collection.getSummaryWidth() - that.width;
                 lastPosition = that.offset;
                 rightBorder = that.offset;
+            } else {
+                rightBorder = that.collection.getSummaryWidth() - that.width;
             }
             // Рисуем
             that.redraw();
