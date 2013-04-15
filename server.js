@@ -12,7 +12,8 @@ app.get('/', function(req, res){
 });
 
 var fakeData = [],
-        x = 0;
+    x = 0,
+    id = 0, intervals = {};
 
 function generatePoint() {
     var y = Faker.Helpers.randomNumber(300)-150,
@@ -38,11 +39,16 @@ for (var i = 0, l = 100; i < l; i++) {
 io.sockets.on('connection', function(socket){
     socket.emit('initData', {points: fakeData});
 
-    setInterval(function(){
+    var interval = setInterval(function(){
         socket.emit('point', {
             point: generatePoint()
         });
     }, 1000);
+
+    socket.on('disconnect', function(){
+        console.log('disconnected');
+        clearInterval(interval);
+    })
 });
 
 server.listen(8000);
